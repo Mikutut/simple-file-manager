@@ -1,0 +1,14 @@
+{
+	"compilerOptions": {
+		"strict": true,
+		"allowJs": false,
+		"noImplicitAny": true,
+		"baseUrl": ".",
+		"moduleResolution": "node",
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+		"jsx": "react-jsx",
+		"outDir": "build"
+	},
+	"include": ["src", "electron", "webpack.dev.config.js"]
+}
