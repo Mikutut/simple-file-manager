@@ -1,9 +1,6 @@
-<<<<<<< HEAD
-=======
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLink } from "@fortawesome/free-solid-svg-icons";
 import { faGithub, faDiscord, faTwitter } from "@fortawesome/free-brands-svg-icons";
->>>>>>> b9bb0a0 (UPDATE: Reinstated repo (...))
 import { version as reactVersion } from "react";
 import { useRecoilValue } from "recoil";
 import { chromeVersionState, nodeVersionState, electronVersionState } from "../state";
