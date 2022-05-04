@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-#App {
-	background: #333;
-=======
 @import "ColorPalette.scss";
 @import "DevSwitch.scss";
 
@@ -26,18 +22,10 @@
 }
 #route-wrapper {
 	grid-area: main;
->>>>>>> b9bb0a0 (UPDATE: Reinstated repo (...))
 	width: 100%;
 	height: 100%;
 	display: flex;
 	flex-flow: column nowrap;
 	justify-content: center;
 	align-items: center;
-<<<<<<< HEAD
-
-	& h1, & h2, & h3 {
-		color: white;
-	}
-=======
->>>>>>> b9bb0a0 (UPDATE: Reinstated repo (...))
 }
