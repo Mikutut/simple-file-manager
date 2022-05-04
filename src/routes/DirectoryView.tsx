@@ -1,5 +1,3 @@
-
-
 function DirectoryViewRoute(directoryPath: string) {
 	return (
 		<div className="route" id="DirectoryViewRoute">

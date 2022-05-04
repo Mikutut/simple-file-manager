@@ -1,12 +1,12 @@
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { useNavigate } from "react-router-dom";
-import { chromeVersionState, nodeVersionState, electronVersionState } from "../states/platformVersions";
+import { chromeVersionState, nodeVersionState, electronVersionState } from "../state";
 import "../styles/HelloWorldRoute.scss"
 
 function HelloWorldRoute() {
-	const [chromeVersion, setChromeVersion] = useRecoilState(chromeVersionState);
-	const [nodeVersion, setNodeVersion] = useRecoilState(nodeVersionState);
-	const [electronVersion, setElectronVersion] = useRecoilState(electronVersionState);
+	const chromeVersion = useRecoilValue(chromeVersionState);
+	const nodeVersion = useRecoilValue(nodeVersionState);
+	const electronVersion = useRecoilValue(electronVersionState);
 	const navigate = useNavigate();
 
 	function goToAbout() {

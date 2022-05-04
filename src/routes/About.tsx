@@ -1,12 +1,12 @@
 import { version as reactVersion } from "react";
-import { useRecoilState } from "recoil";
-import { chromeVersionState, nodeVersionState, electronVersionState } from "../states/platformVersions";
+import { useRecoilValue } from "recoil";
+import { chromeVersionState, nodeVersionState, electronVersionState } from "../state";
 import "../styles/AboutRoute.scss";
 
 function AboutRoute() {
-	const [chromeVersion, setChromeVersion] = useRecoilState(chromeVersionState);
-	const [nodeVersion, setNodeVersion] = useRecoilState(nodeVersionState);
-	const [electronVersion, setElectronVersion] = useRecoilState(electronVersionState);
+	const chromeVersion = useRecoilValue(chromeVersionState);
+	const nodeVersion = useRecoilValue(nodeVersionState);
+	const electronVersion = useRecoilValue(electronVersionState);
 
 	return (
 		<div className="route" id="AboutRoute">

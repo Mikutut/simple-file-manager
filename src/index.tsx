@@ -16,12 +16,3 @@ root.render(
 		</RecoilRoot>
 	</StrictMode>
 );
-// Pre-React 18
-// render(
-// 	<StrictMode>
-// 		<HashRouter>
-// 			<App />
-// 		</HashRouter>
-// 	</StrictMode>,
-// 	document.getElementById("root")
-// );

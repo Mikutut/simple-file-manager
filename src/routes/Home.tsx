@@ -1,4 +1,4 @@
-
+import "../styles/HomeRoute.scss";
 
 function HomeRoute() {
 	return (
