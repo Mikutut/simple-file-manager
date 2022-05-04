@@ -1,5 +1,9 @@
 import { atom } from "recoil";
 
+const titleBarLabelState = atom({
+	key: "titleBarLabel",
+	default: "Simple File Manager"
+});
 const chromeVersionState = atom({
 	key: "chromeVersion",
 	default: ""
@@ -16,5 +20,6 @@ const electronVersionState = atom({
 export {
 	chromeVersionState,
 	nodeVersionState,
-	electronVersionState
+	electronVersionState,
+	titleBarLabelState
 };

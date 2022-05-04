@@ -5,3 +5,37 @@
 	align-items: center;
 	text-align: center;
 }
+@mixin style-links($fontSize, $underlined: false) {
+	font-size: $fontSize;
+	color: white;
+	transition: color .2s;
+
+	@if($underlined == true) {
+		text-decoration: underline;
+	} @else {
+		text-decoration: none;
+	}
+
+	&:hover {
+		color: map-get($colorPalette, "mandarinOrange");
+		cursor: pointer;
+	}
+}
+@mixin generic-button($color, $bg, $fontSize) {
+	border: 1px solid $color;
+	color: $color;
+	border-radius: 8px;
+	padding: 0.25rem;
+	font-size: $fontSize;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	background: none;
+	transition: background .2s;
+
+	&:hover {
+		background: $bg;
+		cursor: pointer;
+	}
+}

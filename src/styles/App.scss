@@ -8,12 +8,15 @@
 	display: grid;
 	@if($isDev == true) {
 		grid-template-columns: auto 1fr;
-		grid-template-rows: 1fr;
-		grid-template-areas: "dev-route-selector main";
+		grid-template-rows: auto 1fr auto;
+		grid-template-areas: "title-bar title-bar"
+			"dev-route-selector main"
+			"platform-versions platform-versions";
 	} @else {
 		grid-template-columns: 1fr;
-		grid-template-rows: 1fr;
-		grid-template-areas: "main";
+		grid-template-rows: auto 1fr;
+		grid-template-areas: "title-bar"
+			"main";
 	}
 
 	& h1, & h2, & h3 {

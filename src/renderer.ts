@@ -26,6 +26,41 @@
  * ```
  */
 
+interface IPlatformVersions {
+	chrome: string;
+	node: string;
+	electron: string;
+}
+interface IElectronAPI {
+	devAPI: {
+		isDev: () => Promise<boolean>,
+		platformVersions: () => Promise<IPlatformVersions>,
+		simulateError: (errorMessage: string) => void
+	},
+	windowManipulationAPI: {
+		minimizeWindow: () => void,
+		toggleWindowMaximization: () => void,
+		closeWindow: () => void
+	},
+	errorHandlingAPI: {
+		errorHandler: (errType: string, callback: (errorType: string, errorMessage: string) => void) => boolean
+	},
+	nodeAPI: {
+		bufferEncode: (data: string, inEncoding: BufferEncoding, outEncoding: BufferEncoding) => string
+	}
+}
+
+declare global {
+	interface Window {
+		electronAPI: IElectronAPI
+	}
+}
+
 import './index.tsx';
 
 console.log('👋 This message is being logged by "renderer.js", included via webpack');
+
+export {
+	IPlatformVersions,
+	IElectronAPI
+};

@@ -10,12 +10,12 @@ rules.push({
 });
 
 module.exports = {
-	target: "electron-renderer",
+	target: "web",
   module: {
     rules,
   },
   plugins: plugins,
   resolve: {
-    extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.scss'],
+    extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.scss', '.svg', '.png', '.jpg', '.jpeg'],
   },
 };

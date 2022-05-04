@@ -1,0 +1,71 @@
+@import "ColorPalette.scss";
+@import "Mixins.scss";
+@import "DevSwitch.scss";
+
+$titleBarBtnHeight: 40px;
+$titleBarBtnWidth: 40px;
+
+#title-bar {
+	grid-area: title-bar;
+	background: map-get($colorPalette, "darkerRichBlack");
+	width: 100%;
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: center;
+	-webkit-app-region: drag !important;
+}
+#title-bar-label {
+	height: $titleBarBtnHeight;
+	width: 100%;
+	font-size: 1rem;
+	color: white;
+	@include center-text(row, nowrap);
+	pointer-events: none;
+}
+#title-bar-buttons {
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	vertical-align: middle;
+	height: 100%;
+	width: fit-content;
+	padding: 0;
+	-webkit-app-region: no-drag;
+}
+.title-bar-button {
+	width: $titleBarBtnWidth;
+	height: $titleBarBtnHeight;
+	padding: 0.5rem;
+	margin: 0;
+	transition: background .2s;
+
+	&:hover {
+		cursor: pointer;
+	}
+	&[data-titlebaraction="minimize"] {
+		&:hover {
+			background: map-get($colorPalette, "maximumBlue");
+		}
+	}
+	&[data-titlebaraction="maximize"] {
+		&:hover {
+			background: map-get($colorPalette, "mandarinOrange");
+		}
+	}
+	&[data-titlebaraction="close"] {
+		&:hover {
+			background: map-get($colorPalette, "vermilionRed");
+		}
+	}
+	& > svg {
+		width: 100%;
+		height: 100%;
+		color: white;
+		fill: currentColor;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+}

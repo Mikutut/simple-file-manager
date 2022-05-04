@@ -26,4 +26,23 @@ module.exports = [
       },
     },
   },
+	{
+		test: /\.svg$/i,
+		use: [
+			{
+				loader: "svg-react-loader"
+			}
+		]
+	},
+	{
+		test: /\.(png|jpe?g|gif)$/i,
+		use: [
+			{
+				loader: "file-loader",
+				options: {
+					name: "assets/[ext]/[name]-[hash].[ext]"
+				}
+			}
+		]
+	}
 ];
