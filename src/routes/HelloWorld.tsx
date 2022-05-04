@@ -14,7 +14,11 @@ function HelloWorldRoute() {
 	}
 
 	return (
+<<<<<<< HEAD
 		<div className="route" id="HelloWorldRoute">
+=======
+		<div className="route" id="hello-world-route">
+>>>>>>> b9bb0a0 (UPDATE: Reinstated repo (...))
 			<h1>Hello world!</h1>
 			<h2>React + TypeScript + Electron</h2>
 			<div id="versions">

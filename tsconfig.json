@@ -1,14 +1,19 @@
 {
-	"compilerOptions": {
-		"strict": true,
-		"allowJs": false,
-		"noImplicitAny": true,
-		"baseUrl": ".",
-		"moduleResolution": "node",
-		"esModuleInterop": true,
-		"allowSyntheticDefaultImports": true,
-		"jsx": "react-jsx",
-		"outDir": "build"
-	},
-	"include": ["src", "electron", "webpack.dev.config.js"]
+  "compilerOptions": {
+    "allowJs": true,
+    "module": "commonjs",
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "noImplicitAny": true,
+    "sourceMap": true,
+    "baseUrl": ".",
+    "outDir": "dist",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "paths": {
+      "*": ["node_modules/*"]
+    },
+		"jsx": "react-jsx"
+  },
+  "include": ["src/**/*"]
 }

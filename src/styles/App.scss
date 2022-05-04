@@ -1,13 +1,43 @@
+<<<<<<< HEAD
 #App {
 	background: #333;
+=======
+@import "ColorPalette.scss";
+@import "DevSwitch.scss";
+
+#app {
+	background: map-get($colorPalette, "richBlack");
+	width: 100%;
+	height: 100%;
+	display: grid;
+	@if($isDev == true) {
+		grid-template-columns: auto 1fr;
+		grid-template-rows: 1fr;
+		grid-template-areas: "dev-route-selector main";
+	} @else {
+		grid-template-columns: 1fr;
+		grid-template-rows: 1fr;
+		grid-template-areas: "main";
+	}
+
+	& h1, & h2, & h3 {
+		color: white;
+	}
+}
+#route-wrapper {
+	grid-area: main;
+>>>>>>> b9bb0a0 (UPDATE: Reinstated repo (...))
 	width: 100%;
 	height: 100%;
 	display: flex;
 	flex-flow: column nowrap;
 	justify-content: center;
 	align-items: center;
+<<<<<<< HEAD
 
 	& h1, & h2, & h3 {
 		color: white;
 	}
+=======
+>>>>>>> b9bb0a0 (UPDATE: Reinstated repo (...))
 }

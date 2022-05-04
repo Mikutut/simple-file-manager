@@ -1,13 +1,14 @@
 @import "Route.scss";
 
-#AboutRoute {
+#about-route {
 	display: grid;
-	grid-template-rows: 1fr auto;
+	grid-template-rows: 1fr 1fr auto;
 	grid-template-columns: 1fr;
 	grid-template-areas: "info"
+		"links"
 		"versions";
 }
-#info {
+#about-info {
 	grid-area: info;
 	width: 100%;
 	height: 100%;
@@ -35,7 +36,19 @@
 		text-decoration: none;
 	}
 }
-#versions {
+#about-links {
+	grid-area: links;
+	display: flex;
+	flex-flow: column nowrap;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+
+	& li {
+		width: 100%;
+	}
+}
+#about-versions {
 	grid-area: versions;
 	width: 100%;
 	font-size: 0.65rem;
