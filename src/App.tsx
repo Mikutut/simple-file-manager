@@ -1,4 +1,4 @@
-import { useState, useEffect, useLayoutEffect } from "react";
+import { useState, useEffect } from "react";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { chromeVersionState, nodeVersionState, electronVersionState, settingsState } from "./state";
