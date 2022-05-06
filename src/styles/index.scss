@@ -1,3 +1,5 @@
+@import "Fonts.scss";
+
 * {
 	box-sizing: border-box;
 	margin: 0;
@@ -7,11 +9,10 @@
 	scroll-behavior: smooth;
 	text-overflow: ellipsis;
 	overflow: hidden;
-	font-weight: 100;
 }
 :root {
 	font-size: 20px;
-	font-family: sans-serif;
+	font-family: "Raleway", sans-serif;
 }
 html, body, #root {
 	width: 100vw;

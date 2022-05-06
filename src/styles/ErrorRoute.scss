@@ -4,10 +4,11 @@
 
 #error-route {
 	display: grid;
-	grid-template-rows: 1fr 1fr;
+	grid-template-rows: 1fr 1fr auto;
 	grid-template-columns: 1fr;
 	grid-template-areas: "error-icon"
-		"error-info";
+		"error-info"
+		"action-buttons";
 	background: map-get($colorPalette, "vermilionRed");
 }
 #error-icon {
@@ -48,10 +49,5 @@
 			font-weight: bold;
 			margin-left: 0.5rem;
 		}
-	}
-	& > button {
-		@include generic-button(white, map-get($colorPalette, "maximumBlue"), 2rem);
-		width: 10rem;
-		margin-top: 1rem;
 	}
 }

@@ -1,25 +1,41 @@
-//#region Error handling
-	type ErrorType = "io" | "test";
-	interface IError {
-		type: ErrorType;
-		message: string;
+//#region Settings
+	interface ISettingsBase {
+		key: string;
+		label: string;
+		value: any;
+	}
+	interface ISettingsString extends ISettingsBase {
+		value: string;
+	}
+	interface ISettingsSwitchable extends ISettingsBase {
+		value: boolean;
+	}
+	interface ISettingsRadioOption extends ISettingsBase {
+		value: boolean;
+	}
+	interface ISettingsRadio {
+		key: string;
+		label: string;
+		options: ISettingsRadioOption[];
+	}
+	interface ISettingsInitMode extends ISettingsString {
+		value: InitMode;
+	}
+	type InitMode = "last-opened" | "homepage";	
+
+	type ISettings = ISettingsString[] & ISettingsSwitchable[] & ISettingsRadio[] & ISettingsInitMode[];
+//#endregion
+
+//#region Dev
+	interface IPlatformVersions {
+		chrome: string;
+		node: string;
+		electron: string;
 	}
 //#endregion
 
-//#region Settings
-	type InitMode = "last-opened" | "homepage";	
-
-	interface ISettings {
-		lastOpened?: string;
-		initMode: InitMode;
-		minimizeToTray: boolean;
-		closeToTray: boolean;
-	};
-//#endregion
-
 export {
-	IError,
-	ErrorType,
 	InitMode,
-	ISettings
+	ISettings,
+	IPlatformVersions
 };

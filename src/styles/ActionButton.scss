@@ -1,0 +1,31 @@
+@import "Mixins.scss";
+@import "ColorPalette.scss";
+
+.action-buttons-container {
+	justify-self: flex-end;
+	margin-top: auto;
+	width: 100%;
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: center;
+	align-items: center;
+	border: 1px solid black;
+}
+.action-button {
+	flex: 1 1;
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: center;
+	align-items: center;
+	padding: 0.25rem;
+	font-size: 1rem;
+	color: white;
+	background: map-get($colorPalette, "richBlack");
+	transition: background .2s;
+	font-weight: 100;
+
+	&:hover {
+		background: map-get($colorPalette, "vermilionRed");
+		cursor: pointer;
+	}
+}

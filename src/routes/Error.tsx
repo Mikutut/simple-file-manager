@@ -1,20 +1,56 @@
 // TODO: Fix error type and message
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { IActionButton } from "../components/ActionButton";
+import ActionButtons from "../components/ActionButtons";
 
 import "../styles/ErrorRoute.scss";
 
+interface IErrorBtn extends IActionButton {
+	excludeFrom: string[];
+}
+
 function ErrorRoute() {
 	const params = useParams();
-	const [errorType, setErrorType] = useState(window.electronAPI.nodeAPI.bufferEncode(params.errortype, "base64url", "utf-8"));
-	const [errorMessage, setErrorMessage] = useState(window.electronAPI.nodeAPI.bufferEncode(params.errormessage, "base64url", "utf-8"));
+	const [errorType, setErrorType] = useState("");
+	const [errorMessage, setErrorMessage] = useState("");
 	const navigate = useNavigate();
+
+	const buttons: IErrorBtn[] = [
+		{
+			key: "action-btn-error-ok",
+			label: "OK",
+			callback: () => navigate(-1),
+			excludeFrom: [],
+		},
+		{
+			key: "action-btn-error-reload-settings",
+			label: "Reload settings",
+			callback: () => {
+				window.electronAPI.settingsAPI.loadSettings();
+				window.electronAPI.settingsAPI.readSettings();
+			},
+			excludeFrom: ["test"],
+		}
+	]; 
+
+	const extractButtons = (errorType: string) => {
+		const btns = buttons.filter((v) => !(v.excludeFrom.includes(errorType)));
+
+		return btns;
+	}
+	useEffect(() => {
+		const [ errType, errMsg ] = JSON.parse(window.electronAPI.nodeAPI.bufferEncode(params.errordetails, "base64url", "utf-8")) as string[];
+
+		setErrorType(errType);
+		setErrorMessage(errMsg);
+	}, []);
 
 	return (
 		<div
-			className="route" 
+			className="route"
 			id="error-route"
 		>
 			<div
@@ -38,12 +74,16 @@ function ErrorRoute() {
 				>
 					Error message: <p>{ errorMessage }</p>
 				</h2>
-				<button
-					onClick={() => navigate('/', { replace: true })}
-				>
-					OK
-				</button>
 			</div>
+			<ActionButtons 
+				buttons={extractButtons(errorType).map((v) => {
+					return {
+						key: v.key,
+						label: v.label,
+						callback: v.callback
+					} as IActionButton;
+				})}
+			/>
 		</div>
 	);
 }
