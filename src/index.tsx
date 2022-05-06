@@ -23,9 +23,11 @@ import "./styles/index.scss";
 const rootContainer = document.getElementById("root");
 const root = createRoot(rootContainer);
 root.render(
+	<StrictMode>
 		<RecoilRoot>
 			<HashRouter>
 				<App />
 			</HashRouter>
 		</RecoilRoot>
+	</StrictMode>
 );
