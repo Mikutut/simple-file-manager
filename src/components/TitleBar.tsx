@@ -1,5 +1,5 @@
 import { useRecoilValue } from "recoil";
-import { titleBarLabelState } from "../state";
+import { titleBarLabelState, settingsState } from "../state";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import "../styles/TitleBar.scss";
@@ -7,6 +7,7 @@ import SquareNoFill from "../assets/svg/square-no-fill.svg";
 
 function TitleBar() {
 	const titleBarLabel = useRecoilValue(titleBarLabelState);
+	const settings = useRecoilValue(settingsState);
 	const windowManipulationAPI = window.electronAPI.windowManipulationAPI;
 
 	const minimizeWindow = () => {
@@ -19,42 +20,44 @@ function TitleBar() {
 		windowManipulationAPI.closeWindow();
 	};
 
-	return (
-		<div id="title-bar">
-			<span
-				id="title-bar-label"
-			>
-				{ titleBarLabel }	
-			</span>
-			<div id="title-bar-buttons">
-				<div 
-					className="title-bar-button"
-					data-titlebaraction="minimize"
-					onClick={() => minimizeWindow()}
+	if(!settings.systemBorders.value) {
+		return (
+			<div id="title-bar">
+				<span
+					id="title-bar-label"
 				>
-					<FontAwesomeIcon
-						icon="minus"
-					/>
-				</div>
-				<div 
-					className="title-bar-button"
-					data-titlebaraction="maximize"
-					onClick={() => toggleMaximizeWindow()}
-				>
-					<SquareNoFill />
-				</div>
-				<div 
-					className="title-bar-button"
-					data-titlebaraction="close"
-					onClick={() => closeWindow()}
-				>
-					<FontAwesomeIcon
-						icon="xmark"
-					/>
+					{ titleBarLabel }	
+				</span>
+				<div id="title-bar-buttons">
+					<div 
+						className="title-bar-button"
+						data-titlebaraction="minimize"
+						onClick={() => minimizeWindow()}
+					>
+						<FontAwesomeIcon
+							icon="minus"
+						/>
+					</div>
+					<div 
+						className="title-bar-button"
+						data-titlebaraction="maximize"
+						onClick={() => toggleMaximizeWindow()}
+					>
+						<SquareNoFill />
+					</div>
+					<div 
+						className="title-bar-button"
+						data-titlebaraction="close"
+						onClick={() => closeWindow()}
+					>
+						<FontAwesomeIcon
+							icon="xmark"
+						/>
+					</div>
 				</div>
 			</div>
-		</div>
-	);
+		);
+	} else return null;
 }
 
 export default TitleBar;

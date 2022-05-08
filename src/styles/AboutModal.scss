@@ -1,0 +1,69 @@
+@import "ColorPalette.scss";
+@import "Route.scss";
+@import "Mixins.scss";
+
+.about-modal {
+	display: grid;
+	grid-template-rows: 1fr 1fr auto;
+	grid-template-columns: 1fr;
+	grid-template-areas: "info"
+		"links"
+		"action-buttons";
+	width: 100%;
+	height: 100%;
+	place-items: center;
+}
+.about-info {
+	grid-area: info;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: center;
+	align-items: center;
+
+	& h1, & h2, & h3 {
+		font-weight: inherit;
+		margin: 0.25rem;
+		color: white;
+		text-align: center;
+	}
+	& h1 {
+		font-weight: 700;
+		font-size: 1.5rem;
+	}
+	& h2 {
+		font-size: 1.2rem;
+	}
+	& h3 {
+		font-size: 0.8rem;
+	}
+	& a {
+		@include style-links(0.8rem, true);
+	}
+}
+.about-links {
+	grid-area: links;
+	display: flex;
+	flex-flow: column nowrap;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+
+	& > li {
+		margin: 0.25rem;
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		justify-content: center;
+
+		& > a {
+			@include style-links(1.2rem);
+
+			& > span {
+				margin-left: 0.5rem;
+			}
+		}
+	}
+}

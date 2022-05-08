@@ -20,13 +20,17 @@ library.add(
 import App from "./App";
 import "./styles/index.scss";
 
+import ModalProvider from "./contexts/ModalProvider";
+
 const rootContainer = document.getElementById("root");
 const root = createRoot(rootContainer);
 root.render(
 	<StrictMode>
 		<RecoilRoot>
 			<HashRouter>
-				<App />
+				<ModalProvider>
+					<App />
+				</ModalProvider>
 			</HashRouter>
 		</RecoilRoot>
 	</StrictMode>

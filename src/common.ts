@@ -1,6 +1,9 @@
 //#region Settings
+	interface ISettingsProps {
+		initMode: any;
+		systemBorders: any;
+	}
 	interface ISettingsBase {
-		key: string;
 		label: string;
 		value: any;
 	}
@@ -14,16 +17,26 @@
 		value: boolean;
 	}
 	interface ISettingsRadio {
-		key: string;
 		label: string;
 		options: ISettingsRadioOption[];
 	}
-	interface ISettingsInitMode extends ISettingsString {
-		value: InitMode;
-	}
-	type InitMode = "last-opened" | "homepage";	
 
-	type ISettings = ISettingsString[] & ISettingsSwitchable[] & ISettingsRadio[] & ISettingsInitMode[];
+	//#region InitMode
+		type InitMode = "last-opened" | "homepage" | "custom";	
+		interface ISettingsInitMode extends ISettingsString {
+			value: InitMode;
+		}
+	//#endregion
+
+	interface ISettingsScheme extends ISettingsProps {
+		initMode: ISettingsInitMode;
+		systemBorders: ISettingsSwitchable;
+	}
+
+	const DEFAULT_SETTINGS: ISettingsScheme = {
+		initMode: { label: "Open on startup on", value: "homepage" },
+		systemBorders: { label: "Enable system borders (requires restart)", value: false },
+	} 
 //#endregion
 
 //#region Dev
@@ -36,6 +49,8 @@
 
 export {
 	InitMode,
-	ISettings,
+	ISettingsScheme,
+	ISettingsProps,
+	DEFAULT_SETTINGS,
 	IPlatformVersions
 };

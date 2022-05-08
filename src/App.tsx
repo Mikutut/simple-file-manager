@@ -2,9 +2,10 @@ import { useState, useEffect } from "react";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { chromeVersionState, nodeVersionState, electronVersionState, settingsState } from "./state";
-import { IPlatformVersions, ISettings } from "./common";
+import { IPlatformVersions, ISettingsScheme } from "./common";
 //import { TransitionGroup, CSSTransition } from "react-transition-group";
 import { useTransition, animated } from "react-spring";
+import useShowErrorModal from "./components/custom-modals/ErrorModal";
 
 //import DevRouteSelector from "./components/dev/RouteSelector";
 import PlatformVersions from "./components/dev/PlatformVersions";
@@ -16,7 +17,6 @@ import TitleBar from "./components/TitleBar";
 import HomeRoute from "./routes/Home";
 import AboutRoute from "./routes/About";
 import SettingsRoute from "./routes/Settings";
-import ErrorRoute from "./routes/Error";
 import RouteNotFoundRoute from "./routes/RouteNotFound";
 
 function App() {
@@ -45,6 +45,8 @@ function App() {
 		expires: true
 	});
 
+	const showErrorModal = useShowErrorModal();
+
 	useEffect(() => {
 		ipcAPI.registerIPCCallback("dev-navigate", (path) => { 
 			console.log(`DEV: Navigating to "${path}"...`);
@@ -59,31 +61,30 @@ function App() {
 		});
 		ipcAPI.registerIPCCallback("error-thrown", (errorType: string, errorMessage: string) => {
 			console.log(`Received new error!\nType: "${errorType}"\nMessage: "${errorMessage}"`);
-			const errDetails = window.electronAPI.nodeAPI.bufferEncode(JSON.stringify([errorType, errorMessage]), "utf-8", "base64url");
 
-			navigate(`/error/${errDetails}`);
-		});
-		ipcAPI.registerIPCCallback("read-settings", (settings) => {
-			console.log(`Setting local settings...`);
-			setSettings(JSON.parse(settings) as ISettings);
+			showErrorModal(errorType, errorMessage, null);
 		});
 
 		devAPI.getIsDev();
 		devAPI.getPlatformVersions();
 
-		settingsAPI.loadSettings();
-		settingsAPI.readSettings();
+		settingsAPI.readSettings()
+			.then((rawSettings: string) => {
+				console.log(`Setting local settings...`);
+				setSettings(JSON.parse(rawSettings) as ISettingsScheme);
+			})
+			.catch((errData: string[]) => window.electronAPI.errorAPI.reportError(errData[0], errData[1]));
+		//settingsAPI.forceLoadDefaults()
+		//	.then((rawSettings: string) => {
+		//		console.log(`Setting local settings...`);
+		//		setSettings(JSON.parse(rawSettings) as ISettingsScheme);
+		//	})
+		//	.catch((errData: string[]) => window.electronAPI.errorAPI.reportError(errData[0], errData[1]));
 	}, []);
 
 	return (
 		<div id="app">
 			<TitleBar />
-			{
-			//	(isDev)
-			//		? <DevRouteSelector />
-			//		: null
-			//
-			}
 			{
 				routeTransition((props, item) => (
 					<animated.div style={props} id="route-wrapper">
@@ -91,7 +92,6 @@ function App() {
 							<Route index element={<HomeRoute />} />
 							<Route path="/settings" element={<SettingsRoute />} />
 							<Route path="/about" element={<AboutRoute />} />
-							<Route path="/error/:errordetails" element={<ErrorRoute />} />
 							<Route path="*" element={<RouteNotFoundRoute />} />
 						</Routes>
 					</animated.div>

@@ -1,5 +1,5 @@
 import { contextBridge, ipcRenderer } from "electron";
-import { ISettings } from "./common";
+import { ISettingsScheme } from "./common";
 
 interface IElectronAPI {
 	devAPI: {
@@ -14,17 +14,22 @@ interface IElectronAPI {
 		toggleWindowMaximization: () => void,
 		closeWindow: () => void
 	},
+	errorAPI: {
+		reportError: (errorType: string, errorMessage: string) => void
+	}
 	nodeAPI: {
 		bufferEncode: (data: string, inEncoding: BufferEncoding, outEncoding: BufferEncoding) => string
 	},
 	settingsAPI: {
-		loadSettings: () => void,
-		readSettings: () => void,
-		modifySettings: (settings: ISettings) => void,
-		writeSettings: () => void
+		loadSettings: () => Promise<any>,
+		readSettings: () => Promise<string>,
+		modifySettings: (settings: ISettingsScheme) => Promise<any>,
+		writeSettings: () => Promise<any>,
+		forceLoadDefaults: () => Promise<string>
 	},
 	ipcAPI: {
-		registerIPCCallback: (channel: string, callback: (...args: any[]) => void) => void
+		registerIPCCallback: (channel: string, callback: (...args: any[]) => void) => void,
+		invoke: (channel: string, ...args: any[]) => Promise<any>
 	}
 }
 
@@ -41,14 +46,18 @@ const electronAPI: IElectronAPI = {
 		toggleWindowMaximization: () => ipcRenderer.send("request", "toggle-window-maximization"),
 		closeWindow: () => ipcRenderer.send("request", "close-window")
 	},
+	errorAPI: {
+		reportError: (errorType, errorMessage) => ipcRenderer.send("request", "error-thrown", errorType, errorMessage)
+	},
 	nodeAPI: {
 		bufferEncode: (data: string, inEncoding: BufferEncoding, outEncoding: BufferEncoding) => Buffer.from(data, inEncoding).toString(outEncoding)
 	},
 	settingsAPI: {
-		loadSettings: () => ipcRenderer.send("request", "load-settings"),
-		readSettings: () => ipcRenderer.send("request", "read-settings"),
-		modifySettings: (settings: ISettings) => ipcRenderer.send("request", "modify-settings", JSON.stringify(settings)),
-		writeSettings: () => ipcRenderer.send("request", "write-settings")
+		loadSettings: () => ipcRenderer.invoke("request-async", "load-settings"),
+		readSettings: () => ipcRenderer.invoke("request-async", "read-settings"),
+		modifySettings: (settings: ISettingsScheme) => ipcRenderer.invoke("request-async", "modify-settings", JSON.stringify(settings)),
+		writeSettings: () => ipcRenderer.invoke("request-async", "write-settings"),
+		forceLoadDefaults: () => ipcRenderer.invoke("request-async", "force-load-default-settings")
 	},
 	ipcAPI: {
 		registerIPCCallback: (channel, callback) => { 
@@ -58,6 +67,7 @@ const electronAPI: IElectronAPI = {
 				}
 			})
 		},
+		invoke: (channel, args) => ipcRenderer.invoke("request-async", ...args)
 	}
 }
 

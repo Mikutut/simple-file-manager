@@ -1,5 +1,6 @@
 @import "ColorPalette.scss";
 @import "DevSwitch.scss";
+@import "Mixins.scss";
 
 #app {
 	background: map-get($colorPalette, "richBlack");

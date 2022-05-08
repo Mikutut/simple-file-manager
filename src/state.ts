@@ -1,5 +1,5 @@
 import { atom } from "recoil";
-import { ISettings } from "./common";
+import { ISettingsScheme, DEFAULT_SETTINGS } from "./common";
 
 const titleBarLabelState = atom({
 	key: "titleBarLabel",
@@ -17,9 +17,9 @@ const electronVersionState = atom({
 	key: "electronVersion",
 	default: "N/A"
 });
-const settingsState = atom<ISettings>({
+const settingsState = atom<ISettingsScheme>({
 	key: "settings",
-	default: []
+	default: JSON.parse(JSON.stringify(DEFAULT_SETTINGS)) as ISettingsScheme
 });
 
 export {

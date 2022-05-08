@@ -1,66 +1,128 @@
-import { app, ipcMain } from "electron";
+import { app, ipcMain, IpcMainInvokeEvent } from "electron";
 import path from "path";
 import * as fs from "fs/promises";
-import { ISettings } from "./common";
+import { ISettingsScheme, DEFAULT_SETTINGS, InitMode, ISettingsProps } from "./common";
 
 const SETTINGS_PATH = path.join(app.getPath("userData"), "settings.json");
+interface ISettingsWritable extends ISettingsProps {
+	initMode: InitMode;
+	systemBorders: boolean;
+}
 
-let settings: ISettings;
+let settings: ISettingsScheme;
 
-const SETTINGS_IPC_HANDLERS = () => {
-	ipcMain.on("request", (event, channel, ...args) => {
+const loadSettings = () => new Promise<void>((res, rej) => {
+	fs.readFile(SETTINGS_PATH, { encoding: "utf-8" })
+		.then((data: string) => {
+			try {
+				const settingsWritable: ISettingsWritable = JSON.parse(data);
+				settings = JSON.parse(JSON.stringify(DEFAULT_SETTINGS)) as ISettingsScheme;
+
+				settings.initMode.value = settingsWritable.initMode;
+				settings.systemBorders.value = settingsWritable.systemBorders;
+
+				res();
+			}
+			catch(err) {
+				rej(err);
+			}
+		})
+		.catch((err: NodeJS.ErrnoException) => {
+			if(err.code !== "ENOENT") {
+				rej(err);
+			} else {
+				settings = JSON.parse(JSON.stringify(DEFAULT_SETTINGS));
+				return writeSettings();
+			}
+		});
+});
+const writeSettings = () => new Promise<void>((res, rej) => {
+	const settingsWritable: ISettingsWritable = {
+		initMode: settings.initMode.value,
+		systemBorders: settings.systemBorders.value,
+	};
+
+ return fs.writeFile(SETTINGS_PATH, JSON.stringify(settingsWritable), "utf-8")
+		.then(() => res())
+		.catch((err) => rej(err));
+});
+const readSettings = () => new Promise<string>((res, rej) => {
+	try {
+		const settingsStr = JSON.stringify(settings);
+		res(settingsStr);
+	} catch(err) {
+		rej(err);
+	}
+});
+const modifySettings = (newSettings: string) => new Promise<void>((res, rej) => {
+	try {
+		const modifiedSettings = JSON.parse(newSettings);
+		settings = modifiedSettings;
+		res();
+	} catch(err) {
+		rej(err)
+	}
+});
+const forceLoadDefaultSettings = () => new Promise<string>((res, rej) => {
+	return modifySettings(JSON.stringify(DEFAULT_SETTINGS))
+		.then(() => readSettings())
+		.catch((err) => rej(err));
+});
+
+const loadSettingsEvent = () => new Promise<void>((res, rej) => {
+	return loadSettings()
+		.then(() => res())
+		.catch((err) => rej(["settings", `Couldn't load settings. Reason: ${err.message ?? err.toString() ?? "unknown"}`]));
+});
+const readSettingsEvent = () => new Promise<string>((res, rej) => {
+		return readSettings()
+			.then((settingsStr: string) => res(settingsStr))
+			.catch((err) => rej(["settings", `Couldn't read settings. Reason: ${err.message ?? "unknown"}`]));
+});
+const modifySettingsEvent = (newSettings: string) => new Promise<void>((res, rej) => {
+	return modifySettings(newSettings)
+		.then(() => res())
+		.catch((err) => rej(["settings", `Couldn't modify settings. Reason: ${err.message ?? "unknown"}`]));
+});
+const writeSettingsEvent = () => new Promise<void>((res, rej) => {
+	return writeSettings()
+		.then(() => res())
+		.catch((err) => rej(["settings/io", `Couldn't write settings to file. Reason: ${err.message ?? "unknown"}`]));
+});
+const forceLoadDefaultSettingsEvent = () => new Promise<string>((res, rej) => {
+	return modifySettingsEvent(JSON.stringify(DEFAULT_SETTINGS))
+		.then(() => readSettingsEvent())
+		.catch((errData: string[]) => rej(errData));
+})
+
+const settingsIPCHandler = () => {
+	ipcMain.handle("request-async", (event: IpcMainInvokeEvent, channel: string, ...args: any[]) => {
 		switch(channel) {
-			case "load-settings": {
-				fs.readFile(SETTINGS_PATH, { encoding: "base64", flag: 'r'})
-					.then((rawSettings: string) => {
-						try {
-							settings = JSON.parse(Buffer.from(rawSettings, "base64").toString("utf-8"));
-							event.sender.send("response", "load-settings");
-						} catch(err) {
-							event.sender.send("response", "error-thrown", "settings", err.message ?? "Unknown error");
-						}
-					})
-					.catch((err: Error) => { 
-						if(!err.message.startsWith("ENOENT")) {
-							event.sender.send("response", "error-thrown", "settings/io", err.message ?? "Unknown error");
-						} else {
-							fs.writeFile(SETTINGS_PATH, "", "utf-8")
-								.then(() => event.sender.send("response-load-settings"))
-								.catch((err) => { 
-									event.sender.send("response", "error-thrown", "settings/io", err.message ?? "Unknown error");
-								});
-						}
-					});
-			}
+			case "load-settings":
+				return loadSettingsEvent();
 			break;
-			case "read-settings": {
-				try {
-					event.sender.send("response", "read-settings", JSON.stringify(settings));
-				} catch(err) {
-					event.sender.send("response", "error-thrown", "settings", `Couldn't read settings. Reason: ${err.message ?? "unknown"}`);
-				}
-			}
+			case "read-settings":
+				return readSettingsEvent();
 			break;
-			case "modify-settings": {
-				try {
-					const modifiedSettings = JSON.parse(args[0]);
-					settings = modifiedSettings;
-					event.sender.send("response", "modify-settings");
-				} catch(err) {
-					event.sender.send("response", "error-thrown", "settings", `Couldn't modify settings. Reason: ${err.message ?? "unknown"}`);
-				}
-			}
+			case "modify-settings":
+				return modifySettingsEvent(args[0]);
 			break;
-			case "write-settings": {
-				fs.writeFile(SETTINGS_PATH, JSON.stringify(settings), "base64")
-					.then(() => event.sender.send("response", "write-settings"))
-					.catch((err) => event.sender.send("response", "error-thrown", "settings/io", err.message ?? "Unknown error"));
-			}
+			case "write-settings":
+				return writeSettingsEvent();
+			break;
+			case "force-load-default-settings":
+				return forceLoadDefaultSettingsEvent();
 			break;
 		}
 	});
-};
+}
 
 export {
-	SETTINGS_IPC_HANDLERS
+	settings,
+	settingsIPCHandler,
+	loadSettings,
+	readSettings,
+	modifySettings,
+	writeSettings,
+	forceLoadDefaultSettings
 };
