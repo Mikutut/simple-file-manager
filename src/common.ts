@@ -50,6 +50,7 @@
 export {
 	InitMode,
 	ISettingsScheme,
+	ISettingsInitMode,
 	ISettingsProps,
 	DEFAULT_SETTINGS,
 	IPlatformVersions

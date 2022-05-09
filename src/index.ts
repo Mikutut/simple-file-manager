@@ -76,6 +76,8 @@ const createWindow = (): void => {
 				case "error-thrown":
 					event.sender.send("response", "error-thrown", args[0], args[1]);
 				break;
+				default:
+					event.sender.send("response", "error-thrown", "ipc", "Unknown channel");
 			}
 		} else {
 			switch(channel) {
@@ -88,10 +90,16 @@ const createWindow = (): void => {
 					event.sender.send("response", "error-thrown", "test", args[0]);
 				}
 				break;
+				default:
+					event.sender.send("response", "error-thrown", "ipc", "Unknown channel");
 			}
 		}
 	});
 	settingsIPCHandler();
+	ipcMain.on("request", (event) => {
+		event.sender.send("response", "error-thrown", "ipc", "Unknown channel");
+	});
+	ipcMain.handle("request-async", (event, channel) => Promise.reject([ "ipc", "Unknown channel" ]));
 };
 
 // This method will be called when Electron has finished

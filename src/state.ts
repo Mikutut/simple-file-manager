@@ -21,11 +21,16 @@ const settingsState = atom<ISettingsScheme>({
 	key: "settings",
 	default: JSON.parse(JSON.stringify(DEFAULT_SETTINGS)) as ISettingsScheme
 });
+const currentDirectoryState = atom<string>({
+	key: "currentDirectory",
+	default: ""
+});
 
 export {
 	chromeVersionState,
 	nodeVersionState,
 	electronVersionState,
 	titleBarLabelState,
-	settingsState
+	settingsState,
+	currentDirectoryState
 };
