@@ -14,7 +14,7 @@ function AboutModal() {
 		<div className="about-modal">
 			<div className="about-info">
 				<h1>Simple File Manager</h1>
-				<h2>A file manager created using React, TypeScript and Electron</h2>
+				<h2>A file manager created using React, TypeScript and Electron, bundled with Vite</h2>
 				<h3>Created by <a href="https://mikut.dev" target="_blank">Marcin "Mikut" Mikuła</a></h3>
 			</div>
 			<ul className="about-links">
@@ -92,7 +92,7 @@ function AboutModal() {
 function useShowAboutModal() {
 	const addToQueue = useModal();
 
-	return function(onClose: () => void | null) {
+	return function(onClose: (() => void) | null) {
 		addToQueue({
 			children: <AboutModal />,
 			onClose

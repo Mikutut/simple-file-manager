@@ -1,7 +1,7 @@
 import { app, ipcMain, IpcMainInvokeEvent } from "electron";
 import path from "path";
 import * as fs from "fs/promises";
-import { ISettingsScheme, DEFAULT_SETTINGS, InitMode, ISettingsProps } from "./common";
+import { ISettingsScheme, DEFAULT_SETTINGS, InitMode, ISettingsProps } from "@c/common";
 
 const SETTINGS_PATH = path.join(app.getPath("userData"), "settings.json");
 interface ISettingsWritable extends ISettingsProps {
@@ -95,34 +95,16 @@ const forceLoadDefaultSettingsEvent = () => new Promise<string>((res, rej) => {
 		.catch((errData: string[]) => rej(errData));
 })
 
-const settingsIPCHandler = () => {
-	ipcMain.handle("request-async", (event: IpcMainInvokeEvent, channel: string, ...args: any[]) => {
-		switch(channel) {
-			case "load-settings":
-				return loadSettingsEvent();
-			break;
-			case "read-settings":
-				return readSettingsEvent();
-			break;
-			case "modify-settings":
-				return modifySettingsEvent(args[0]);
-			break;
-			case "write-settings":
-				return writeSettingsEvent();
-			break;
-			case "force-load-default-settings":
-				return forceLoadDefaultSettingsEvent();
-			break;
-		}
-	});
-}
-
 export {
 	settings,
-	settingsIPCHandler,
 	loadSettings,
 	readSettings,
 	modifySettings,
 	writeSettings,
-	forceLoadDefaultSettings
+	forceLoadDefaultSettings,
+	loadSettingsEvent,
+	readSettingsEvent,
+	modifySettingsEvent,
+	writeSettingsEvent,
+	forceLoadDefaultSettingsEvent
 };

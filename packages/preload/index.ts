@@ -1,37 +1,5 @@
 import { contextBridge, ipcRenderer } from "electron";
-import { ISettingsScheme } from "./common";
-
-interface IElectronAPI {
-	devAPI: {
-		getIsDev: () => void,
-		getPlatformVersions: () => void,
-		simulateError: (errorMessage: string) => void,
-		navigate: (path: string) => void,
-		reloadSettings: () => void
-	},
-	windowManipulationAPI: {
-		minimizeWindow: () => void,
-		toggleWindowMaximization: () => void,
-		closeWindow: () => void
-	},
-	errorAPI: {
-		reportError: (errorType: string, errorMessage: string) => void
-	}
-	nodeAPI: {
-		bufferEncode: (data: string, inEncoding: BufferEncoding, outEncoding: BufferEncoding) => string
-	},
-	settingsAPI: {
-		loadSettings: () => Promise<any>,
-		readSettings: () => Promise<string>,
-		modifySettings: (settings: ISettingsScheme) => Promise<any>,
-		writeSettings: () => Promise<any>,
-		forceLoadDefaults: () => Promise<string>
-	},
-	ipcAPI: {
-		registerIPCCallback: (channel: string, callback: (...args: any[]) => void) => void,
-		invoke: (channel: string, ...args: any[]) => Promise<any>
-	}
-}
+import { ISettingsScheme, IElectronAPI } from "@c/common";
 
 const electronAPI: IElectronAPI = {
 	devAPI: {
@@ -72,7 +40,3 @@ const electronAPI: IElectronAPI = {
 }
 
 contextBridge.exposeInMainWorld("electronAPI", electronAPI);
-
-export {
-	IElectronAPI
-}

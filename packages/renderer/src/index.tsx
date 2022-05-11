@@ -23,7 +23,7 @@ import "./styles/index.scss";
 import ModalProvider from "./contexts/ModalProvider";
 
 const rootContainer = document.getElementById("root");
-const root = createRoot(rootContainer);
+const root = createRoot(rootContainer!);
 root.render(
 	<StrictMode>
 		<RecoilRoot>

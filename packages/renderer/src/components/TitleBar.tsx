@@ -3,7 +3,7 @@ import { titleBarLabelState, settingsState } from "../state";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import "../styles/TitleBar.scss";
-import SquareNoFill from "../assets/svg/square-no-fill.svg";
+import SquareNoFill from "@/assets/svg/square-no-fill.svg?component";
 
 function TitleBar() {
 	const titleBarLabel = useRecoilValue(titleBarLabelState);

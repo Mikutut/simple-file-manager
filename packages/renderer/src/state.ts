@@ -1,5 +1,5 @@
 import { atom } from "recoil";
-import { ISettingsScheme, DEFAULT_SETTINGS } from "./common";
+import { ISettingsScheme, DEFAULT_SETTINGS } from "@c/common";
 
 const titleBarLabelState = atom({
 	key: "titleBarLabel",

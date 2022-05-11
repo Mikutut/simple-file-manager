@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { chromeVersionState, nodeVersionState, electronVersionState, settingsState } from "./state";
-import { IPlatformVersions, ISettingsScheme } from "./common";
+import { IPlatformVersions, ISettingsScheme } from "@c/common";
 //import { TransitionGroup, CSSTransition } from "react-transition-group";
 import { useTransition, animated } from "react-spring";
 import useShowErrorModal from "./components/custom-modals/ErrorModal";

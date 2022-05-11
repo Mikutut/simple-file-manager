@@ -55,7 +55,7 @@ function ErrorModal({ errorType, errorMessage }: { errorType: string; errorMessa
 function useShowErrorModal() {
 	const addToQueue = useModal();
 
-	return function(errorType: string, errorMessage: string | null | undefined, onClose: () => void | null) {
+	return function(errorType: string, errorMessage: string | null | undefined, onClose: (() => void) | null) {
 		console.log(`Adding new error modal of type "${errorType}" and message "${errorMessage}"`);
 		addToQueue({
 			children: <ErrorModal errorType={errorType} errorMessage={errorMessage} />,

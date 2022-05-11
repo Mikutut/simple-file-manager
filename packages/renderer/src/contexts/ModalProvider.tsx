@@ -3,12 +3,12 @@ import ModalManager from "../components/ModalManager";
 
 interface IModal {
 	children: JSX.Element | React.ReactNode,
-	onClose: () => void | null
+	onClose: (() => void) | null
 }
 type ModalProviderValue = (modal: IModal) => void;
 
 
-const ModalContext = createContext<ModalProviderValue>(null);
+const ModalContext = createContext<ModalProviderValue>(() => {});
 
 function ModalProvider({ children }: { children: ReactNode }) {
 	const [ modalQueue, setModalQueue ] = useState<IModal[]>([]);
@@ -53,6 +53,8 @@ function useModal() {
 
 export default ModalProvider;
 export {
-	IModal,
 	useModal
+};
+export type {
+	IModal
 };

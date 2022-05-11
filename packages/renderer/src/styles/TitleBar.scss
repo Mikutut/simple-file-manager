@@ -61,7 +61,7 @@ $titleBarBtnWidth: 40px;
 			background: map-get($colorPalette, "vermilionRed");
 		}
 	}
-	& > svg {
+	& > svg, & > img {
 		width: 100%;
 		height: 100%;
 		color: white;
