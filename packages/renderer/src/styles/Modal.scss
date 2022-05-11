@@ -1,0 +1,57 @@
+@import "Mixins.scss";
+@import "ColorPalette.scss";
+
+#modal-wrapper {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 9998;
+	width: 100%;
+	height: 100%;
+	background: none;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.modal-overlay {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background: rgba(0, 0, 0, 0.75);
+	z-index: 9998;
+}
+.modal {
+	border-radius: 8px;
+	background: map-get($colorPalette, "richBlack");
+	overflow: hidden auto;
+	z-index: 9999;
+
+	@include style-scrollbar();
+}
+
+@include bigSize() {
+	.modal {
+		width: 900px;
+		height: 900px;
+	}
+}
+@include mediumSize() {
+	.modal {
+		width: 500px;
+		height: 500px;
+	}
+}
+@include smallSize() {
+	.modal {
+		width: 400px;
+		height: 400px;
+	}
+}
+@include smallerSize() {
+	.modal {
+		height: 250px;
+		width: 250px;
+	}
+}

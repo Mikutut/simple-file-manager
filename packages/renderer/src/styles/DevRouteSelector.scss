@@ -1,0 +1,30 @@
+@import "ColorPalette.scss";
+@import "Mixins.scss";
+
+$routeBtnHeight: 50px;
+$routeBtnWidth: 50px;
+
+.dev-route-selector-btn {
+	width: $routeBtnWidth;
+	height: $routeBtnHeight;
+	font-size: 1.2rem;
+	padding: 0.25rem;
+	@include center-text(column, nowrap);
+	background: map-get($colorPalette, "richBlack");
+	color: map-get($colorPalette, "vermilionRed");
+}
+#dev-route-selector {
+	grid-area: dev-route-selector;
+	display: flex;
+	flex-flow: column nowrap;
+	align-items: center;
+	width: fit-content;
+}
+#dev-route-selector-list {
+	height: 100%;
+	width: fit-content;
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: center;
+	align-items: center;
+}

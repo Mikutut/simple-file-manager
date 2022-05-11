@@ -1,0 +1,104 @@
+@import "Mixins.scss";
+@import "ColorPalette.scss";
+
+.error-modal {
+	width: 100%;
+	height: 100%;
+	display: grid;
+	grid-template-rows: auto 1fr auto;
+	grid-template-columns: 1fr;
+	grid-template-areas: "error-icon"
+		"error-info"
+		"action-buttons";
+	background: map-get($colorPalette, "vermilionRed");
+	overflow: hidden auto;
+	place-items: center;
+
+	@include style-scrollbar;
+}
+.error-icon {
+	grid-area: error-icon;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	& > svg {
+		width: 80%;
+		height: 80%;
+		color: white;
+		fill: currentColor;
+	}
+}
+.error-info {
+	grid-area: error-info;
+	display: flex;
+	flex-flow: column nowrap;
+	justify-content: center;
+	align-items: center;
+
+	& > h1, & > h2 {
+		color: white;
+		text-align: center;
+		width: 100%;
+	}
+	& > h1 {
+		font-weight: 700;
+	}
+}
+
+@include bigSize() {
+	.error-icon {
+		width: 400px;
+		height: 400px;
+	}
+	.error-info {
+		& > h1 {
+			font-size: 3rem;
+		}
+		& > h2 {
+			font-size: 2rem;
+		}
+	}
+}
+@include mediumSize() {
+	.error-icon {
+		width: 300px;
+		height: 300px;
+	}
+	.error-info {
+		& > h1 {
+			font-size: 2rem;
+		}
+		& > h2 {
+			font-size: 1rem;
+		}
+	}
+}
+@include smallSize() {
+	.error-icon {
+		width: 100px;
+		height: 100px;
+	}
+	.error-info {
+		& > h1 {
+			font-size: 1rem;
+		}
+		& > h2 {
+			font-size: 0.6rem;
+		}
+	}
+}
+@include smallerSize() {
+	.error-icon {
+		width: 50px;
+		height: 50px;
+	}
+	.error-info {
+		& > h1 {
+			font-size: 0.6rem;
+		}
+		& > h2 {
+			font-size: 0.3rem;
+		}
+	}
+}

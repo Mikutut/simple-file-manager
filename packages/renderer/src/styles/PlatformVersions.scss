@@ -1,0 +1,16 @@
+@import "ColorPalette.scss";
+@import "Mixins.scss";
+
+#platform-versions {
+	grid-area: platform-versions;
+	width: 100%;
+	padding: 0.25rem;
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-evenly;
+	align-items: center;
+
+	& a {
+		@include style-links(0.65rem);
+	}
+}

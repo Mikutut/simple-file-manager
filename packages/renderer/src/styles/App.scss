@@ -1,0 +1,34 @@
+@import "ColorPalette.scss";
+@import "DevSwitch.scss";
+@import "Mixins.scss";
+
+#app {
+	background: map-get($colorPalette, "richBlack");
+	width: 100%;
+	height: 100%;
+	display: grid;
+	@if($isDev == true) {
+		grid-template-columns: auto 1fr;
+		grid-template-rows: auto 1fr auto;
+		grid-template-areas: "title-bar title-bar"
+			"dev-route-selector main"
+			"platform-versions platform-versions";
+	} @else {
+		grid-template-columns: 1fr;
+		grid-template-rows: auto 1fr;
+		grid-template-areas: "title-bar"
+			"main";
+	}
+
+	& h1, & h2, & h3 {
+		color: white;
+	}
+}
+#route-wrapper {
+	grid-area: main;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-flow: column nowrap;
+	align-items: center;
+}
