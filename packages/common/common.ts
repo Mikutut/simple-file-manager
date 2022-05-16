@@ -1,41 +1,18 @@
 //#region Settings
-	interface ISettingsProps {
-		initMode: any;
-		systemBorders: any;
-	}
-	interface ISettingsBase {
-		label: string;
-		value: any;
-	}
-	interface ISettingsString extends ISettingsBase {
-		value: string;
-	}
-	interface ISettingsSwitchable extends ISettingsBase {
-		value: boolean;
-	}
-	interface ISettingsRadioOption extends ISettingsBase {
-		value: boolean;
-	}
-	interface ISettingsRadio {
-		label: string;
-		options: ISettingsRadioOption[];
-	}
-
 	//#region InitMode
-		type InitMode = "last-opened" | "homepage" | "custom";	
-		interface ISettingsInitMode extends ISettingsString {
-			value: InitMode;
-		}
+		type InitMode = "last-opened" | "homepage" | string;	
 	//#endregion
 
-	interface ISettingsScheme extends ISettingsProps {
-		initMode: ISettingsInitMode;
-		systemBorders: ISettingsSwitchable;
+	interface ISettingsScheme {
+		initMode: InitMode;
+		systemBorders: boolean;
+		lastOpened: string;
 	}
 
 	const DEFAULT_SETTINGS: ISettingsScheme = {
-		initMode: { label: "Open on startup on", value: "homepage" },
-		systemBorders: { label: "Enable system borders (requires restart)", value: false },
+		initMode: "homepage",
+		systemBorders: false,
+		lastOpened: ""
 	} 
 //#endregion
 
@@ -85,8 +62,6 @@ export {
 export type {
 	InitMode,
 	ISettingsScheme,
-	ISettingsInitMode,
-	ISettingsProps,
 	IPlatformVersions,
 	IElectronAPI
 };

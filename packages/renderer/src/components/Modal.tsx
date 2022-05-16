@@ -5,7 +5,7 @@ import "../styles/Modal.scss";
 
 type ModalInnerContextValue = () => void;
 
-const ModalInnerContext = createContext<ModalInnerContextValue>(null);
+const ModalInnerContext = createContext<ModalInnerContextValue>(() => {});
 
 function Modal({ children, onClose, style }: { children: ReactNode, onClose: () => void, style: any }) {
 	return (

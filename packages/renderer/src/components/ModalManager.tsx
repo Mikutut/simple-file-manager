@@ -6,7 +6,7 @@ import "../styles/Modal.scss";
 import Modal from "./Modal";
 
 function ModalManager({ queue, removeFromQueue }: { queue: IModal[], removeFromQueue: () => void }) {
-	const [currentModal, setCurrentModal] = useState<IModal>(null);
+	const [currentModal, setCurrentModal] = useState<IModal | null>(null);
 
 	const modalWrapperTransition = useTransition(currentModal, {
 		from: {opacity: 0},
@@ -72,7 +72,7 @@ function ModalManager({ queue, removeFromQueue }: { queue: IModal[], removeFromQ
 						style={modalOverlayProps}
 						className="modal-overlay"
 						onClick={() => {
-							currentModal.onClose && currentModal.onClose();
+							currentModal && currentModal.onClose && currentModal.onClose();
 							onModalClose();
 						}}
 					>

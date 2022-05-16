@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react'
 import optimizer from 'vite-plugin-optimizer'
 import resolve from 'vite-plugin-resolve'
 import pkg from '../../package.json'
-import svgr from '@honkhonk/vite-plugin-svgr';
+import svgr from 'vite-plugin-svgr';
 
 /**
  * @see https://vitejs.dev/config/

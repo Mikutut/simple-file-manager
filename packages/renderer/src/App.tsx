@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
-import { chromeVersionState, nodeVersionState, electronVersionState, settingsState } from "./state";
+import { useSetRecoilState, useRecoilValue } from "recoil";
+import { chromeVersionState, nodeVersionState, electronVersionState, settingsState, lastOpenedDirectoryState, currentDirectoryState } from "./state";
 import { IPlatformVersions, ISettingsScheme } from "@c/common";
 //import { TransitionGroup, CSSTransition } from "react-transition-group";
 import { useTransition, animated } from "react-spring";
@@ -17,6 +17,7 @@ import TitleBar from "./components/TitleBar";
 import HomeRoute from "./routes/Home";
 import AboutRoute from "./routes/About";
 import SettingsRoute from "./routes/Settings";
+import DirectoryViewRoute from "./routes/DirectoryView";
 import RouteNotFoundRoute from "./routes/RouteNotFound";
 
 function App() {
@@ -32,6 +33,9 @@ function App() {
 	const setNodeVersion = useSetRecoilState(nodeVersionState);
 	const setElectronVersion = useSetRecoilState(electronVersionState);
 	const setSettings = useSetRecoilState(settingsState);
+	const settings = useRecoilValue(settingsState);
+	const lastOpenedDirectory = useRecoilValue(lastOpenedDirectoryState);
+	const setCurrentDirectory = useSetRecoilState(currentDirectoryState);
 
 	const routeTransition = useTransition(location, {
 		from: { opacity: 0, transform: "scale(1.05)" },
@@ -71,9 +75,17 @@ function App() {
 		settingsAPI.readSettings()
 			.then((rawSettings: string) => {
 				console.log(`Setting local settings...`);
-				setSettings(JSON.parse(rawSettings) as ISettingsScheme);
+				return setSettings(JSON.parse(rawSettings) as ISettingsScheme);
 			})
-			.catch((errData: string[]) => window.electronAPI.errorAPI.reportError(errData[0], errData[1]));
+			.catch((errData: string[]) => { 
+				console.log("An error has occurred while loading settings! Error: ", errData);
+				window.electronAPI.errorAPI.reportError(errData[0], errData[1]);
+			});
+
+		if(settings.initMode === "last-opened") {
+			setCurrentDirectory(settings.lastOpened);
+			navigate("/directory");
+		}
 		//settingsAPI.forceLoadDefaults()
 		//	.then((rawSettings: string) => {
 		//		console.log(`Setting local settings...`);
@@ -92,6 +104,7 @@ function App() {
 							<Route index element={<HomeRoute />} />
 							<Route path="/settings" element={<SettingsRoute />} />
 							<Route path="/about" element={<AboutRoute />} />
+							<Route path="/directory" element={<DirectoryViewRoute />} />
 							<Route path="*" element={<RouteNotFoundRoute />} />
 						</Routes>
 					</animated.div>

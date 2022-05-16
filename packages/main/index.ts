@@ -15,7 +15,7 @@ const createWindow = (): void => {
 		webPreferences: {
 			preload: path.join(__dirname, "../preload/index.cjs")
 		},
-		frame: settings.systemBorders.value ?? false
+		frame: settings?.systemBorders ?? false
   });
 
   // and load the index.html of the app.
@@ -26,7 +26,7 @@ const createWindow = (): void => {
 	}
 
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
 
 	mainWindow.webContents.setWindowOpenHandler(({ url }) => {
     if (url.startsWith('https:')) shell.openExternal(url)
@@ -34,7 +34,8 @@ const createWindow = (): void => {
 	});
 
 	ipcMain.on("request", (event, channel, ...args) => {
-		console.log(args.toString());
+		console.log("Channel: ", channel);
+		console.log("Args: ", args.toString());
 
 		if(!isDev || (isDev && !channel.startsWith("dev"))) {
 			switch(channel) {

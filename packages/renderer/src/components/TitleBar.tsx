@@ -3,7 +3,7 @@ import { titleBarLabelState, settingsState } from "../state";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import "../styles/TitleBar.scss";
-import SquareNoFill from "@/assets/svg/square-no-fill.svg?component";
+import { ReactComponent as SquareNoFill } from "@/assets/svg/square-no-fill.svg";
 
 function TitleBar() {
 	const titleBarLabel = useRecoilValue(titleBarLabelState);
@@ -20,7 +20,7 @@ function TitleBar() {
 		windowManipulationAPI.closeWindow();
 	};
 
-	if(!settings.systemBorders.value) {
+	if(!settings?.systemBorders) {
 		return (
 			<div id="title-bar">
 				<span

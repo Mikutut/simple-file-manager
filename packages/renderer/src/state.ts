@@ -25,6 +25,10 @@ const currentDirectoryState = atom<string>({
 	key: "currentDirectory",
 	default: ""
 });
+const lastOpenedDirectoryState = atom<string>({
+	key: "lastOpenedDirectory",
+	default: DEFAULT_SETTINGS.lastOpened
+});
 
 export {
 	chromeVersionState,
@@ -32,5 +36,6 @@ export {
 	electronVersionState,
 	titleBarLabelState,
 	settingsState,
-	currentDirectoryState
+	currentDirectoryState,
+	lastOpenedDirectoryState
 };

@@ -29,9 +29,9 @@ function ModalProvider({ children }: { children: ReactNode }) {
 		});
 	}
 
-	useEffect(() => {
-		console.log(modalQueue);
-	}, [modalQueue]);
+	//useEffect(() => {
+	//	console.log(modalQueue);
+	//}, [modalQueue]);
 
 	return (
 		<ModalContext.Provider value={addToQueue}>

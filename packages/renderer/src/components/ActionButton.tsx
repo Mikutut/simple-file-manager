@@ -11,7 +11,7 @@ function ActionButton( btnProps: IActionButton ) {
 	return (
 		<button
 			className="action-button"
-			style={btnProps.style ?? null}
+			style={btnProps.style}
 			onClick={() => btnProps.callback()}
 		>
 			{ btnProps.label }
@@ -20,6 +20,6 @@ function ActionButton( btnProps: IActionButton ) {
 }
 
 export default ActionButton;
-export {
+export type {
 	IActionButton
 };
